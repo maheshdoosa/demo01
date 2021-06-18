@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  name: Azure Pipelines
+  vmImage: 'vs2017-win2016'
+  
+steps:
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  displayName: 'Use Terraform latest'
+
+- task: tylerevert.Vsts-Release-Terraform.Vsts-Release-Terraform.Terraform@1
+  displayName: 'Terraform : INIT'
+  inputs:
+    backendServiceArm: 'siripuramvasundhara555-demo02-75482fde-30f2-43bd-96b8-a5ca06c1ae7e'
+    backendAzureRmResourceGroupName: 'terrafrom'
+    backendAzureRmStorageAccountName: devopsst01
+    backendAzureRmContainerName: state
+    backendAzureRmKey: '4vOWZ+0tPm6kUpzjMywWZ67PjbpBJuEog9S6GXVIAmhMEQjkwVG49wOQnhzmjuQzMY5UoojVkrJ5vrRlzxR8rw=='
+
+- task: tylerevert.Vsts-Release-Terraform.Vsts-Release-Terraform.Terraform@1
+  displayName: 'Terraform : PLAN'
+  inputs:
+    command: plan
+    environmentServiceNameAzureRM: 'siripuramvasundhara555-demo02-75482fde-30f2-43bd-96b8-a5ca06c1ae7e'
+
+- task: tylerevert.Vsts-Release-Terraform.Vsts-Release-Terraform.Terraform@1
+  displayName: 'Terraform : VAL & APPLY'
+  inputs:
+    command: apply
+    environmentServiceNameAzureRM: 'siripuramvasundhara555-demo02-75482fde-30f2-43bd-96b8-a5ca06c1ae7e'
+
+
+    
